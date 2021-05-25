@@ -1,8 +1,3 @@
-# frozen_string_literal: true
+require_relative "./open_homes/version"
+require_relative "./open_homes/cli"
 
-require_relative "open_homes/version"
-
-module OpenHomes
-  class Error < StandardError; end
-  # Your code goes here...
-end
