@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
-require "./lib/open_homes"
+require "bundler/setup"
+require "open_homes"
 
 OpenHomes::CLI.new.call

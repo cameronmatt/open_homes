@@ -1,33 +1,36 @@
 class OpenHomes::CLI
 
     def call
-        list_opens
         menu
-    end
-
-    def list_opens
-        puts "Upcoming Inspection times:"
-        puts <<-DOC
-            1. Tuesday, 25 May
-            2. Wednesday, 26 May
-
-        DOC
+        list_opens
     end
 
     def menu
-        puts "Enter the number of the date you'd like to see open homes"
-        input = gets.strip
-        case input
-        when "1"
-            puts <<-DOC
-                    1. Level 2/209/33 Dawes Avenue Castle Hill - Tue May 25 10:00-10:30am
-                    2. 1/59 Queenscliff Road Queenscliff - Tue May 25 10:00-10:30am
-                    DOC
-        when "2"
-                puts <<-DOC
-                        1. 3/1 Denison Street Manly - Wed May 26 9:00-9:30am
-                        2. 59 Ernest Street Balgowlah Heights - Tue May 25 10:00-10:30am
-                        DOC
+        puts "Upcoming Inspection times:"
+        @opens = OpenHomes::Opens.upcoming
+        @opens.each.with_index(1) do |openday, index|
+            puts "#{index}. #{openday.date_time}"
         end
+    end
+
+    def list_opens
+        input = nil
+        while input != "exit"
+            puts "Enter the number of the date on which you'd like to see open homes, or type 'list' to see dates or type 'exit' to exit."
+            input = gets.strip.downcase
+
+            if input.to_i > 0 
+                open_date_time = @opens[input.to_i-1]
+                puts "#{open_date_time.date_time}"
+            elsif input == "list"
+                menu
+            else
+                puts "not sure what you want, type list or exit"
+            end
+        end
+    end
+
+    def goodbye
+        puts "See you soon"
     end
 end
