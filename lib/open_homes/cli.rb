@@ -1,38 +1,50 @@
 class OpenHomes::CLI
+    attr_accessor :scraper
 
-    def call
-        menu
+    def initialize
+        @scraper = OpenHomes::Scraper.new
     end
 
-    def menu
-        puts "Upcoming Inspection times for Stone Real Estate"
+    def start
+        puts "welcome to Highland Property Group".upcase
+        puts "WOuld you like to see our upcoming inspection?"
+        puts "Input Y for yes, or input any character to exit"
+
+        input = gets.strip
+
+        list_inspections if input.downcase == "y"
+    end
+
+    def list_inspections
+        scraper.scrape_inspection_dates.each.with_index(1) do |inspection, index|
+            puts "#{index}. #{inspection.date_time} at #{inspection.address} #{inspection.suburb}"
+        end
+        prompt_user
+    end
+
+    def prompt_user
+        puts "Input the number of the course you want"
+        puts "input list to show the list again"
+        puts "input exit to exit"
+
+        input = ""
         
-        @opens = OpenHomes::OpensScraper.upcoming
-        @opens.each.with_index(1) do |openday, index|
-            puts "#{index}. #{openday.date_time}"
-        end
-        puts "Enter the number of the date on which you'd like to see open homes, or type 'exit' to exit."
-        list_opens
-    end
-
-    def list_opens
-        input = nil
         while input != "exit"
-            input = gets.strip.downcase
+            input = gets.strip
 
-            if input.to_i > 0 
-                puts "Insepctions for input.value"
-                open_date_time = @opens[input.to_i-1]
-                puts "#{open_date_time.date_time}"
+            if input.to_i != 0 && input.to_i <= OpenHomes::Inspections.all.size
+                inspection = OpenHomes::Inspections.all[input.to_i -1]
+                inspection.body = scraper.scrape_page_content(inspection.url) 
+                inspection.print
+                prompt_user
             elsif input == "list"
-                menu
-            else
-                puts "not sure what you want, type list or exit"
+                list_inspections
+            elsif input == "exit"
+                "Bye"
+                exit
+            else 
+                "Invalid Input"
             end
-        end
-    end
-
-    def goodbye
-        puts "See you soon"
+        end        
     end
 end
