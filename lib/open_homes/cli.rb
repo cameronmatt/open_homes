@@ -33,7 +33,8 @@ class OpenHomes::CLI
             input = gets.strip
 
             if input.to_i != 0 && input.to_i <= OpenHomes::Inspections.all.size
-                inspection = OpenHomes::Inspections.all[input.to_i -1]
+                #binding.pry
+                inspection = OpenHomes::Inspections.all[input.to_i - 1]
                 inspection.body = scraper.scrape_page_content(inspection.url) 
                 inspection.print
                 prompt_user
