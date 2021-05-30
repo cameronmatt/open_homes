@@ -6,8 +6,8 @@ class OpenHomes::CLI
     end
 
     def start
-        puts "welcome to Highland Property Group".upcase
-        puts "WOuld you like to see our upcoming inspection?"
+        puts "Welcome to Stone Real Estate".upcase
+        puts "Would you like to see our upcoming inspection?"
         puts "Input Y for yes, or input any character to exit"
 
         input = gets.strip
@@ -17,15 +17,15 @@ class OpenHomes::CLI
 
     def list_inspections
         scraper.scrape_inspection_dates.each.with_index(1) do |inspection, index|
-            puts "#{index}. #{inspection.date_time} at #{inspection.address} #{inspection.suburb}"
+            puts "#{index}. #{inspection.date} #{inspection.time} at #{inspection.address} #{inspection.suburb}"
         end
         prompt_user
     end
 
     def prompt_user
-        puts "Input the number of the course you want"
-        puts "input list to show the list again"
-        puts "input exit to exit"
+        puts "Input the number of any property you would like more information on."
+        puts "Input list to show the list again"
+        puts "Input exit to exit"
 
         input = ""
         
@@ -41,10 +41,10 @@ class OpenHomes::CLI
             elsif input == "list"
                 list_inspections
             elsif input == "exit"
-                "Bye"
+                "See you next time."
                 exit
             else 
-                "Invalid Input"
+                "Invalid Input. Please input a number, 'list' or 'exit'."
             end
         end        
     end

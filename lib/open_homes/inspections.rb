@@ -1,11 +1,12 @@
 class OpenHomes::Inspections
-    attr_accessor :date_time, :address, :suburb, :url, :body
+    attr_accessor :date, :time, :address, :suburb, :url, :body
     
 
     @@all = []
     
-    def initialize(date_time: nil, address: nil, suburb: nil, url: nil, body: nil)
-        @date_time = date_time
+    def initialize(date: nil, time: nil, address: nil, suburb: nil, url: nil, body: nil)
+        @date = date
+        @time = time
         @address = address
         @suburb = suburb
         @url = url
@@ -18,12 +19,16 @@ class OpenHomes::Inspections
     end
 
     def print
-        puts "========================================"
+        puts "                                         ,--j j-------,       "
+        puts "                                        /_.-.___.-.__/ \      "
+        puts "                                        | [_],-.[_] |  |      "
+        puts "==================================,,,oO8|_o8_|_|_8o_|&888o,,, "
         puts "#{self.address.upcase} #{self.suburb.upcase}"
-        puts "========================================"
-        puts self.body
+        puts "=============================================================="
+        puts "#{self.body}"
         #binding.pry
-        puts "========================================"
+        puts "=============================================================="
+        prompt_user
     end
 
 end
