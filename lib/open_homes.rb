@@ -7,4 +7,5 @@ require_relative "./open_homes/cli"
 #require_relative "./open_homes/opens_scraper"
 require_relative "./open_homes/inspections"
 require_relative "./open_homes/scraper"
-
+require_relative "./open_homes/open_date"
+require_relative "./open_homes/properties"

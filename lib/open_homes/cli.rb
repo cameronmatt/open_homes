@@ -1,29 +1,29 @@
 class OpenHomes::CLI
-    attr_accessor :scraper
+    attr_accessor :scraper, :open_date #, :properties
 
     def initialize
         @scraper = OpenHomes::Scraper.new
+        @open_date = OpenHomes::OpenDate.new
+        #@properties = OpenHomes::Properties.new
     end
 
     def start
-        puts "Welcome to Stone Real Estate".upcase
-        puts "Would you like to see our upcoming inspection?"
-        puts "Input Y for yes, or input any character to exit"
+        puts "================================================================="  
+        puts "Welcome to".upcase 
+        puts "╔═╗┬─┐┌─┐┌┐┌┬ ┬┬  ┬  ┌─┐  ╔═╗┌─┐┌─┐┌┐┌  ╦ ╦┌─┐┌┬┐┌─┐┌─┐"   
+        puts "║  ├┬┘│ │││││ ││  │  ├─┤  ║ ║├─┘├┤ │││  ╠═╣│ ││││├┤ └─┐"
+        puts "╚═╝┴└─└─┘┘└┘└─┘┴─┘┴─┘┴ ┴  ╚═╝┴  └─┘┘└┘  ╩ ╩└─┘┴ ┴└─┘└─┘"                                                             
+        puts "================================================================="  
+        puts "Below is a list of Open Homes in Cronulla, NSW." 
+        puts "================================================================="
+        
+        open_date.date_menu
 
-        input = gets.strip
-
-        list_inspections if input.downcase == "y"
+        prompt_user_inspections
     end
 
-    def list_inspections
-        scraper.scrape_inspection_dates.each.with_index(1) do |inspection, index|
-            puts "#{index}. #{inspection.date} #{inspection.time} at #{inspection.address} #{inspection.suburb}"
-        end
-        prompt_user
-    end
-
-    def prompt_user
-        puts "Input the number of any property you would like more information on."
+    def prompt_user_inspections
+        puts "Select a number to see inspections for that date."
         puts "Input list to show the list again"
         puts "Input exit to exit"
 
@@ -32,14 +32,17 @@ class OpenHomes::CLI
         while input != "exit"
             input = gets.strip
 
-            if input.to_i != 0 && input.to_i <= OpenHomes::Inspections.all.size
-                #binding.pry
-                inspection = OpenHomes::Inspections.all[input.to_i - 1]
-                inspection.body = scraper.scrape_page_content(inspection.url) 
+            if input.to_i != 0 && input.to_i <= OpenHomes::OpenDate.all.size
+                inspection = OpenHomes::OpenDate.all[input.to_i - 1]
+                #inspection should equal the n'th object in the array
+                inspection.url = scraper.scrape_inspection(inspection.url) 
+                #inspection.url should target the url of above object
+                #need to get this url to the scrape_inspection method
+                binding.pry
                 inspection.print
                 prompt_user
             elsif input == "list"
-                list_inspections
+                open_date.date_menu
             elsif input == "exit"
                 "See you next time."
                 exit
