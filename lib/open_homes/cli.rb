@@ -1,11 +1,12 @@
 class OpenHomes::CLI
-    attr_accessor :scraper, :open_date #, :properties
+    # attr_accessor :scraper, :open_date #, :properties
 
-    def initialize
-        @scraper = OpenHomes::Scraper.new
-        @open_date = OpenHomes::OpenDate.new
-        #@properties = OpenHomes::Properties.new
-    end
+    # def initialize
+    #     #@scraper = OpenHomes::Scraper.new
+    #     #@open_date = OpenHomes::OpenDate.new
+    #     #@inspections = OpenHomes::Inspections.new
+    #     #@properties = OpenHomes::Properties.new
+    # end
 
     def start
         puts "================================================================="  
@@ -17,7 +18,7 @@ class OpenHomes::CLI
         puts "Below is a list of Open Homes in Cronulla, NSW." 
         puts "================================================================="
         
-        open_date.date_menu
+        OpenHomes::OpenDate.date_menu
 
         prompt_user_inspections
     end
@@ -33,14 +34,10 @@ class OpenHomes::CLI
             input = gets.strip
 
             if input.to_i != 0 && input.to_i <= OpenHomes::OpenDate.all.size
-                inspection = OpenHomes::OpenDate.all[input.to_i - 1]
-                #inspection should equal the n'th object in the array
-                inspection.url = scraper.scrape_inspection(inspection.url) 
-                #inspection.url should target the url of above object
-                #need to get this url to the scrape_inspection method
-                binding.pry
-                inspection.print
-                prompt_user
+                open_date = OpenHomes::OpenDate.all[input.to_i - 1]
+                
+                open_date.list_inspections
+                
             elsif input == "list"
                 open_date.date_menu
             elsif input == "exit"

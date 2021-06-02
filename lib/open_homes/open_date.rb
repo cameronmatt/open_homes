@@ -1,5 +1,5 @@
 class OpenHomes::OpenDate
-    attr_accessor :month, :url, :day, :date, :scraper
+    attr_accessor :month, :url, :day, :date
     
     @@all = []
     
@@ -8,7 +8,6 @@ class OpenHomes::OpenDate
         @url = url
         @day = day
         @date = date 
-        @scraper = OpenHomes::Scraper.new
         self.class.all << self
     end
 
@@ -16,10 +15,16 @@ class OpenHomes::OpenDate
         @@all
     end
 
-    def date_menu
-        scraper.scrape_inspection_dates.each.with_index(1) do |date, index|
+    def self.date_menu
+        OpenHomes::Scraper.new.scrape_inspection_dates.each.with_index(1) do |date, index|
            puts "#{index}. #{date.day}, #{date.date} #{date.month}"
         end
         puts "================================================================="
+    end
+
+    def list_inspections
+        OpenHomes::Scraper.new.scrape_inspection(self.url).each.with_index(1) do |inspection, index|
+            puts "#{index}. #{inspection.time} at #{inspection.address} #{inspection.suburb}"
+        end
     end
 end
