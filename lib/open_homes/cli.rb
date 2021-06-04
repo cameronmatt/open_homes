@@ -34,7 +34,7 @@ class OpenHomes::CLI
                 prompt_user_property
                 
             elsif input == "list"
-                OpenHomes::OpenDate.date_menu
+                start
             elsif input == "exit"
                 "See you next time."
                 exit
@@ -45,9 +45,9 @@ class OpenHomes::CLI
     end
 
     def prompt_user_property
-        puts "Input the number property of which you would like more information"
-        puts "input list to show the list of days again"
-        puts "input exit to exit"
+        puts "Input the number of the property to which you would like more information"
+        puts "Input 'list' to show the list of days again"
+        puts "Input 'exit' to exit"
 
         input = ""
 
@@ -61,7 +61,7 @@ class OpenHomes::CLI
                 puts "Input 'list' to show the list of days again"
                 puts "Input 'exit' to exit"
             elsif input == "list"
-                OpenHomes::OpenDate.date_menu
+                start
             elsif input == "exit"
                 "See you next time."
                 exit

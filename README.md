@@ -1,15 +1,12 @@
 # OpenHomes
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/open_homes`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome to Open Homes CLI gem. With this gem you are able to search for Open property inspections for the coming week in Cronulla, NSW.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+You can fork the Open Homes CLI gem from the below GitHub Repo
 
-```ruby
-gem 'open_homes'
+https://github.com/cameronmatt/open_homes
 ```
 
 And then execute:
@@ -22,7 +19,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+- Run the Open Homes CLI gem by entering ./bin/open-homes in your terminal. 
+
+- You will then be displayed a list of the next 7 days. Select the date on which you'd like to see Open Homes by entering the corresponding number. 
+
+- You will then see all inspaection in Cronulla for that date. 
+
+- You can then then enter the number of the corresponding property to find more information on the property. 
+
+Typing 'Exit' with exit you from the CLI at any time and 'List' will display the upcoming week menu again. 
 
 ## Development
 

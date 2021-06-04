@@ -24,6 +24,9 @@ class OpenHomes::OpenDate
     end
 
     def list_inspections
+        puts "================================================================="
+        puts "Showing inspection for #{@day}, #{@date} #{@month}"
+        puts "================================================================="
         OpenHomes::Scraper.new.scrape_inspection(self.url).each.with_index(1) do |inspection, index|
             puts "#{index}. #{inspection.time} at #{inspection.address} #{inspection.suburb}"
         end
