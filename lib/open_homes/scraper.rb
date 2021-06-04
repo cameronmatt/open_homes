@@ -2,7 +2,7 @@ class OpenHomes::Scraper
     attr_accessor :base_url, :html, :document
     
     def initialize 
-        @base_url = "https://www.domain.com.au/sale/cronulla-nsw-2230/inspection-times/?excludeunderoffer=1&inspectiondate=2021-06-02"
+        @base_url = "https://www.domain.com.au/sale/cronulla-nsw-2230/inspection-times/?excludeunderoffer=1"
         @html = URI.parse(@base_url).open
         @document = Nokogiri::HTML(html)
     end
@@ -21,24 +21,23 @@ class OpenHomes::Scraper
 
     def scrape_inspection(url)
         html = URI.parse(url).open
-        document = Nokogiri::HTML(html)
-        #binding.pry
-        document.css(".css-1oa1pa6").collect do |inspection| 
-            time = inspection.xpath("//span/following-sibling::text()")[2].text.strip 
+        doc = Nokogiri::HTML(html)
+        doc.css(".css-1qp9106").collect do |inspection| 
+            time = inspection.css("span.css-16q9xmc+span").text.strip
+            property_url = inspection.css("div.css-qrqvvg>a").attr("href").value
             address = inspection.css("span.css-iqrvhs").text.strip
             suburb = inspection.css("span.css-iqrvhs>span").text.strip
-            property_url = inspection.css(".css-9hd67m>a").attr("href").value
             
-            OpenHomes::Inspections.new(time: time, address: address, suburb: suburb, url: url)
+            OpenHomes::Inspections.new(time: time, address: address, suburb: suburb, property_url: property_url)
         end
     end
 
     def scrape_page_content(property_url) 
-        #binding.pry
-        address = Nokogiri::HTML(open(url)).css(".copy").text.strip
-        suburb = Nokogiri::HTML(open(url)).css(".copy").text.strip
-        body = Nokogiri::HTML(open(url)).css(".copy").text.strip
-        #binding.pry
+        html = URI.parse(property_url).open
+        doc = Nokogiri::HTML(html)
+        address = doc.css(".css-164r41r").text.strip
+        body = doc.css(".css-bq4jj8 .noscript-expander-wrapper.css-aeox7o > div p").text
     end
-
 end
+
+# .css-bq4jj8 .noscript-expander-wrapper.css-aeox7o > div:nth-child(1)

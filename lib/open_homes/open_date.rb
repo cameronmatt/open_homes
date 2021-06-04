@@ -16,6 +16,7 @@ class OpenHomes::OpenDate
     end
 
     def self.date_menu
+        puts "================================================================="
         OpenHomes::Scraper.new.scrape_inspection_dates.each.with_index(1) do |date, index|
            puts "#{index}. #{date.day}, #{date.date} #{date.month}"
         end
@@ -26,5 +27,7 @@ class OpenHomes::OpenDate
         OpenHomes::Scraper.new.scrape_inspection(self.url).each.with_index(1) do |inspection, index|
             puts "#{index}. #{inspection.time} at #{inspection.address} #{inspection.suburb}"
         end
+        puts "================================================================="
     end
-end
+
+end 
